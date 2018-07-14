@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Hello!This is create by Rory!
+                    Hello! This is created by Rory!
                 </div>
 
                <!-- <div class="links">
