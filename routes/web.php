@@ -13,7 +13,11 @@
 
 Route::get('/welcome', function () {
     return view('welcome');
-})->name('welcome');
+	})->name('welcome');
+
+Route::get('/welcome',function(){
+	return view('welcome');
+	})->name('register');
 
 Route::get('/','StaticPagesController@home')->name('home');
 Route::get('/help','StaticPagesController@help')->name('help');
