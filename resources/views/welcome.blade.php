@@ -72,7 +72,11 @@
                         <a href="{{ url('/home') }}">Home</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
+<<<<<<< HEAD
                        <!-- <a href="{{ route('register') }}">Register</a> -->
+=======
+                        <a href="{{ route('signup') }}">Signup</a>
+>>>>>>> user-curd
                     @endauth
                 </div>
             @endif

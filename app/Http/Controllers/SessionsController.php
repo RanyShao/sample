@@ -10,6 +10,12 @@ class SessionsController extends Controller
 {
     //
 
+	public function __construct(){
+		$this->middleware('guest',[
+			'only' => ['create']
+		]);
+	}
+
 	public function create(){
 		return view('sessions.create');
 	}
@@ -22,7 +28,7 @@ class SessionsController extends Controller
 
 		if(Auth::attempt($validator, $request->has('remember'))){
 			session()->flash('success','熊孩子，欢迎回家！');
-			return redirect()->route('users.show',[Auth::user()]);
+			return redirect()->intended(route('users.show',[Auth::user()]));
 		}else{
 			session()->flash('danger','哈哈！你的密码跟邮箱不匹配，懵逼了吧！');
 			return redirect()->back();
