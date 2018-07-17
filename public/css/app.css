@@ -16771,6 +16771,14 @@ p {
   color: #fff;
 }
 
+#logout {
+  cursor: default;
+}
+
+#logout:hover {
+  background-color: transparent;
+}
+
 /* footer */
 
 footer {
@@ -16853,5 +16861,23 @@ section.user_info h1 {
   margin-right: 10px;
   max-width: 50px;
   border-radius: 50%;
+}
+
+/* forms */
+
+input,
+textarea,
+select,
+.uneditable-input {
+  border: 1px solid #bbb;
+  margin-bottom: 15px;
+}
+
+input {
+  height: auto !important;
+}
+
+.panel {
+  margin-top: 50px;
 }
 
