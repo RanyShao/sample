@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\User;
 use Auth;
+use Mail;
 
 class UsersController extends Controller
 {
     //
 	public function __construct(){
 		$this->middleware('auth',[
-			'except' => ['show','create','store','index']
+			'except' => ['show','create','store','index','confirmEmail']
 		]);
 
 		$this->middleware('guest',[
@@ -46,9 +47,11 @@ class UsersController extends Controller
 			'password' => bcrypt($request->password),
 		]);
 
-		Auth::login($user);
-		session()->flash('success','哎呦，不错呦！你登陆成功了！');
-		return redirect()->route('users.show',[$user]);
+		$this->sendEmailConfirmationTo($user);
+		
+		//Auth::login($user);
+		session()->flash('success','哎呦，不错呦！可惜。你还没有真正注册成功。为了确认一下眼神，我们给你发了一封验证邮件，赶紧去查收一下。');
+		return redirect('/');
 	}
 
 	public function edit(User $user){
@@ -78,7 +81,30 @@ class UsersController extends Controller
 	public function destroy(User $user){
 		$this->authorize('destroy',$user);
 		$user->delete();
-		session()->flash('success','你成功的干掉了这个玩家！');
+		session()->flash('success','你成功的干掉了这个玩家！(o゜▽゜)o☆ 	'.$user->name);
 		return back();
+	}
+
+	public function sendEmailConfirmationTo($user){
+		$view = 'emails.confirm';
+		$data = compact('user');
+		$to = $user->email;
+		$subject = '呦吼，我们又见面了。';
+
+		Mail::send($view,$data,function($message) use ($from ,$to ,$subject){
+			$message->to($to)->subject($subject);
+		});
+	}
+
+	public function confirmEmail($token){
+		$user = User::where('activation_token',$token)->firstOrFail();
+
+		$user->activated = true;
+        	$user->activation_token = null;
+        	$user->save();
+
+       		Auth::login($user);
+        	session()->flash('success', '哇偶，你终于成功打败打怪兽了，不对，你终于注册成功了，有没有很激动很兴奋，开心的快要跳起来了？恩这是个肯定句，你不用回答。');
+        	return redirect()->route('users.show', [$user]);
 	}
 }

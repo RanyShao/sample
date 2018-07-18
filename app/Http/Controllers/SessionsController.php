@@ -27,8 +27,15 @@ class SessionsController extends Controller
 		]);
 
 		if(Auth::attempt($validator, $request->has('remember'))){
-			session()->flash('success','熊孩子，欢迎回家！');
-			return redirect()->intended(route('users.show',[Auth::user()]));
+			if(Auth::user()->activated){
+
+				session()->flash('success','熊孩子，欢迎回家！');
+				return redirect()->intended(route('users.show',[Auth::user()]));
+			}else{
+				Auth::logout();
+				session()->flash('warning','阿偶，你的账号木有激活哎。看吧，肯定是你没有认真看你邮箱，仔细看一下你的邮箱，然后激活一下账号。');
+				return redirect('/');
+			}
 		}else{
 			session()->flash('danger','哈哈！你的密码跟邮箱不匹配，懵逼了吧！');
 			return redirect()->back();
