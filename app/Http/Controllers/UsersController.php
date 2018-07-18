@@ -91,7 +91,7 @@ class UsersController extends Controller
 		$to = $user->email;
 		$subject = '呦吼，我们又见面了。';
 
-		Mail::send($view,$data,function($message) use ($from ,$to ,$subject){
+		Mail::send($view,$data,function($message) use ($to ,$subject){
 			$message->to($to)->subject($subject);
 		});
 	}
