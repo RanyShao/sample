@@ -15,9 +15,9 @@ Route::get('/welcome', function () {
     return view('welcome');
 	})->name('welcome');
 
-Route::get('/welcome',function(){
+/*Route::get('/welcome',function(){
 	return view('welcome');
-	})->name('register');
+	})->name('register');*/
 
 
 Route::get('/','StaticPagesController@home')->name('home');
