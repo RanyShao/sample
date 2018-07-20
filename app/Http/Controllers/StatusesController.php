@@ -17,7 +17,7 @@ class StatusesController extends Controller
 	public function store(Request $request){
 		$this->validate($request,[
 			'content' => 'required'
-		])
+		]);
 
 		Auth::user()->statuses()->create([
 			'content' => $request['content']
@@ -30,7 +30,7 @@ class StatusesController extends Controller
 
         	$this->authorize('destroy', $status);
         	$status->delete();
-        	session()->flash('success', '微博已被成功删除！');
+        	session()->flash('success', '欧耶，你成功的切掉了你的。。。一个微博！w(ﾟДﾟ)w  ');
         	return redirect()->back();
     	}
 }
